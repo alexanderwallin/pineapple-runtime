@@ -1,6 +1,6 @@
-
-import random
 from live import *
+
+import plugin_tempo_changer
 
 # Scan the currently open Ableton Live set.
 #
@@ -12,10 +12,18 @@ from live import *
 class PineappleSet:
 
   # The list of plugins which will alter the set
-  plugins = []
+  plugins = [plugin_tempo_changer]
 
   # Constructor
   def __init__(self):
+
+    # This is our state, which will be modified here
+    # and there
+    self.state = {
+      'plugins': [plugin_tempo_changer]
+    }
+
+    # Scan the currently open Ableton Live set
     self.set = Set()
     self.set.scan()
 
@@ -23,8 +31,10 @@ class PineappleSet:
   # randomly at every beat.
   def run(self):
     while True:
-        self.set.wait_for_next_beat()
-        self.set.tempo = 90 + random.randrange(0, 100, 1)
+      self.set.wait_for_next_beat()
+
+      for plugin in self.plugins:
+        plugin.update(self.set)
 
 # Intanciates a pineapple set and runs its loop
 set = PineappleSet()
