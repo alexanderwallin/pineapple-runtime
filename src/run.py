@@ -55,9 +55,12 @@ class PineappleSet:
   # Handles modification events on reducer files
   #
   def _on_reducer_modifed(self, evt):
+    print "_on_reducer_modifed", evt.src_path
     if evt.src_path == 'src/reducers/feel_reducer.py':
+      print "\n--- Reloading feel reducer\n"
       reload(feel_reducer)
-    if evt.src_path == 'src/reducer/tempo_reducer.py':
+    if evt.src_path == 'src/reducers/tempo_reducer.py':
+      print "\n--- Reloading tempo reducer\n"
       reload(tempo_reducer)
 
   #
