@@ -1,8 +1,11 @@
 import random
 
+# Update these to see hot reloaded changes
+MIN_TEMPO = 120
+MAX_TEMPO = 180
+
 # A simple example of a pineapple plugin that randomly changes
 # the set's tempo, pending from 90-190.
 def reduce(state, set):
-  #print "reduce tempo", state
-  state['tempo'] = 90 + random.randrange(0, 30, 1)
+  state['tempo'] = MIN_TEMPO + random.randrange(0, MAX_TEMPO - MIN_TEMPO, 1)
   return state
