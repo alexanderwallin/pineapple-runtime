@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
   name = 'pineapple-runtime',
-  version = '0.2.0',
+  version = '0.2.1',
   description = 'Run-time environment for controlling Ableton Live sets via pineapple.',
   url = 'http://github.com/alexanderwallin/pineapple-runtime',
   author = 'Alexander Wallin',
