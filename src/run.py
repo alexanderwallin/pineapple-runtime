@@ -1,7 +1,7 @@
 from live import *
 
-import tempo_modifier
-import feel_modifier
+from reducers import tempo_reducer
+from reducers import feel_reducer
 
 #
 # Scan the currently open Ableton Live set.
@@ -17,7 +17,7 @@ class PineappleSet:
   # This is our state, which will be modified here
   # by a list of reducers
   state = {}
-  reducers = [feel_modifier, tempo_modifier]
+  reducers = [feel_reducer, tempo_reducer]
 
   #
   # Constructor
@@ -54,13 +54,13 @@ class PineappleSet:
   def apply_state(self):
 
     # Tempo
-    tempoMultiplier = 2 if self.state['feel']['value'] == feel_modifier.Feel.intense else 1
+    tempoMultiplier = 2 if self.state['feel']['value'] == feel_reducer.Feel.intense else 1
     self.set.tempo = self.state['tempo'] * tempoMultiplier
 
     # Eerie resonator
     resonator = self.set.tracks[1].devices[1]
     if resonator:
-      resonator_on = 1 if self.state['feel']['value'] == feel_modifier.Feel.eerie else 0
+      resonator_on = 1 if self.state['feel']['value'] == feel_reducer.Feel.eerie else 0
       resonator.set_parameter('Device On', resonator_on)
 
 
