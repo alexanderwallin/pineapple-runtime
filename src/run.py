@@ -1,7 +1,17 @@
-from live import *
 
+# Libraries
+import os
+import inspect
+from live import *
+from watchdog.observers import Observer
+from watchdog.events import RegexMatchingEventHandler
+
+# Reducers
 from reducers import tempo_reducer
 from reducers import feel_reducer
+
+# Constants
+ROOT_DIR = os.path.dirname(inspect.getfile(inspect.currentframe()))
 
 #
 # Scan the currently open Ableton Live set.
@@ -23,10 +33,32 @@ class PineappleSet:
   # Constructor
   #
   def __init__(self):
+    self._watch_reducers()
 
     # Scan the currently open Ableton Live set
     self.set = Set()
     self.set.scan(scan_devices = True)
+
+  #
+  # Watches reducer files and calls self._on_reducer_modified
+  # whenever one is changed
+  #
+  def _watch_reducers(self):
+    event_handler = RegexMatchingEventHandler(['.*'])
+    event_handler.on_modified = self._on_reducer_modifed
+
+    observer = Observer()
+    observer.schedule(event_handler, os.path.join(ROOT_DIR, 'reducers'), recursive = False)
+    observer.start()
+
+  #
+  # Handles modification events on reducer files
+  #
+  def _on_reducer_modifed(self, evt):
+    if evt.src_path == 'src/reducers/feel_reducer.py':
+      reload(feel_reducer)
+    if evt.src_path == 'src/reducer/tempo_reducer.py':
+      reload(tempo_reducer)
 
   #
   # Initiates a stupid loop where tempo is changed
