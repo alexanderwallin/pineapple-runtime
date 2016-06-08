@@ -2,6 +2,7 @@
 # Libraries
 import os
 import inspect
+import sys
 from live import *
 from watchdog.observers import Observer
 from watchdog.events import RegexMatchingEventHandler
@@ -55,13 +56,22 @@ class PineappleSet:
   # Handles modification events on reducer files
   #
   def _on_reducer_modifed(self, evt):
-    print "_on_reducer_modifed", evt.src_path
     if evt.src_path == 'src/reducers/feel_reducer.py':
-      print "\n--- Reloading feel reducer\n"
-      reload(feel_reducer)
+      self._reload_reducer(feel_reducer, "feel reducer")
     if evt.src_path == 'src/reducers/tempo_reducer.py':
-      print "\n--- Reloading tempo reducer\n"
-      reload(tempo_reducer)
+      self._reload_reducer(tempo_reducer, "tempo reducer")
+
+  #
+  # Tries to reload a reducer module
+  #
+  def _reload_reducer(self, module, description):
+    print "\n--- Reloading", description, "\n"
+    try:
+      reload(module)
+    except:
+      e = sys.exc_info()[0]
+      print "Error occured while reloading reducer:"
+      print e, "\n"
 
   #
   # Initiates a stupid loop where tempo is changed
