@@ -4,9 +4,15 @@
 
 Run-time environment for controlling Ableton Live sets via pineapple.
 
+## Prerequisites
+
+* Ableton Live 9 Suite - Tested successfully on 9.2.3, not working on 9.6.1
+* [LiveOSC](https://github.com/dinchak/LiveOSC) added [as a MIDI Control Surface](http://livecontrol.q3f.org/ableton-liveapi/liveosc/)
+* [`liblo`](http://liblo.sourceforge.net/)
+
 ## Installation
 
-Download `pineapple-runtime` and install necessary dependencies:
+Clone `pineapple-runtime` and install necessary dependencies:
 
 ```sh
 git clone https://github.com/alexanderwallin/pineapple-runtime
@@ -20,5 +26,5 @@ Note that [`pylive`](https://github.com/ideoforms/pylive) uses [`pyliblo`](https
 
 1. Open up the Ableton Live set
 2. Run `python src/run.py`
-3. Watch and listen for modifications on the live set
-4. Edit and save the reducer files in any text editor, and they will be hot replaced
+3. Hear the set being modified on every beat
+4. Edit and save a reducer file in any text editor, and it will be hot-reloaded, making it's modification to the set to apply immediately
