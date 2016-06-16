@@ -9,7 +9,7 @@ setup(
   author_email = 'office@alexanderwallin.com',
   license = 'MIT',
   install_requires = [
-    'pylive >= 0.1.5',
+    'pylive >= 0.1.4',
     'watchdog >= 0.8.3'
   ]
 )
